@@ -187,7 +187,7 @@ function Overview() {
             The system favors open hardware, reproducible builds, and
             transparent algorithms. You can start with a single node and scale
             to a city-wide mesh. Choose the modules you need—BLE Remote ID, RF
-            spectrum sweeps, 2.4/5.8 GHz activity, GPS time-sync, or edge ML
+            spectrum sweeps, 2.4/5 GHz activity, GPS time-sync, or edge ML
             classifiers for specific sound signatures.
           </p>
           <ul className="list-disc pl-5 space-y-2">
@@ -250,14 +250,14 @@ function Hardware() {
     },
     {
       name: "Antennas",
-      items: ["Discone (25–1300 MHz)", "2.4 GHz + 5.8 GHz directional panels"],
+      items: ["Discone (25–1300 MHz)", "2.4 GHz + 5 GHz directional panels"],
     },
     {
       name: "Filters",
       items: [
         "FM broadcast notch (88–108 MHz)",
         "LTE notch (700–2700 MHz)",
-        "2.4 GHz / 5.8 GHz band-pass",
+        "2.4 GHz / 5 GHz band-pass",
       ],
     },
     {
@@ -322,7 +322,7 @@ function Software() {
             All firmware, capture utilities, dashboards, and deployment scripts
             live in the repository below. You’ll find quick-start guides for
             Raspberry Pi, Docker compose files for gateway nodes, and sample
-            parsers for BLE Remote ID, 2.4/5.8 GHz activity, and acoustic
+            parsers for BLE Remote ID, 2.4/5 GHz activity, and acoustic
             inference.
           </p>
           <ul className="list-disc pl-5 space-y-2">
