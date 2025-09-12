@@ -326,7 +326,7 @@ function Software() {
             inference.
           </p>
           <ul className="list-disc pl-5 space-y-2">
-            <li>MIT-licensed; contributions welcome via PRs</li>
+            <li>Apache License 2.0; contributions welcome via PRs</li>
             <li>Issue templates for bug reports and hardware variants</li>
             <li>Security policy for responsible disclosure</li>
           </ul>
