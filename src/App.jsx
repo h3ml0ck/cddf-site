@@ -272,6 +272,10 @@ function Hardware() {
       ],
     },
     {
+      name: "WiFi",
+      items: ["Alfa Networks AWUS036ACM"],
+    },
+    {
       name: "Power & Mounting",
       items: ["PoE hat or 12 V regulator", "Weatherproof enclosure, mast clamps"],
     },
