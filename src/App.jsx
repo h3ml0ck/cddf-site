@@ -272,7 +272,7 @@ function Hardware() {
       ],
     },
     {
-      name: "WiFi",
+      name: "Wifi Detection",
       items: ["Alfa Networks AWUS036ACM"],
     },
     {
