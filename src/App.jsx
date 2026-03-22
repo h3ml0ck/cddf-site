@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Cpu, Radio, Wifi, Shield, Menu, X, Mic } from "lucide-react";
+import { Github, Cpu, Radio, Wifi, Shield, Menu, X, Mic, Camera } from "lucide-react";
 
 const GITHUB_URL = "https://github.com/h3ml0ck/cddf";
 
@@ -12,6 +12,7 @@ export default function CddfSite() {
         <Hero />
         <Overview />
         <Hardware />
+        <TestKit />
         <Software />
       </main>
       <Footer />
@@ -46,6 +47,11 @@ function Header() {
           <li>
             <a href="#hardware" className="hover:text-teal-300 transition">
               Hardware
+            </a>
+          </li>
+          <li>
+            <a href="#test-kit" className="hover:text-teal-300 transition">
+              Test Kit
             </a>
           </li>
           <li>
@@ -90,6 +96,7 @@ function Header() {
           {[
             { href: "#overview", label: "Overview" },
             { href: "#hardware", label: "Hardware" },
+            { href: "#test-kit", label: "Test Kit" },
             { href: "#software", label: "Software" },
           ].map(({ href, label }) => (
             <a
@@ -367,6 +374,59 @@ function Hardware() {
         Tip: Place filters near the SDR to reduce front-end overload. Use
         low-loss coax (LMR-240/400) for long runs.
       </p>
+    </Section>
+  );
+}
+
+function TestKit() {
+  const hardware = [
+    {
+      name: "Raspberry Pi 5",
+      detail: "Running Raspberry Pi OS — serves as the central compute node",
+    },
+    {
+      name: "RTL-SDR",
+      detail: "Software-defined radio dongle used for ADS-B airplane detection",
+    },
+    {
+      name: "Alfa Networks AWUS036ACM",
+      detail: "Dual-band 2.4 / 5 GHz adapter for WiFi drone detection",
+    },
+    {
+      name: "CatSniffer v3.1",
+      detail:
+        "TI CC1352P7 multi-protocol adapter for BLE Remote ID detection",
+    },
+  ];
+
+  return (
+    <Section
+      id="test-kit"
+      eyebrow="Current Test Kit"
+      title="Current Test Kit Hardware"
+    >
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        {/* Hardware list */}
+        <ul className="space-y-4">
+          {hardware.map(({ name, detail }) => (
+            <li key={name} className="flex gap-4">
+              <span className="mt-1 flex-shrink-0 h-2 w-2 rounded-full bg-teal-300" />
+              <div>
+                <p className="font-medium text-slate-100">{name}</p>
+                <p className="text-sm text-slate-400">{detail}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {/* Photo placeholder */}
+        <div className="flex items-center justify-center rounded-2xl border border-dashed border-white/20 bg-white/5 p-10 min-h-64">
+          <div className="text-center space-y-3 text-slate-500">
+            <Camera className="mx-auto h-10 w-10 opacity-40" />
+            <p className="text-sm">Kit photo coming soon</p>
+          </div>
+        </div>
+      </div>
     </Section>
   );
 }
