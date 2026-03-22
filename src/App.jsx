@@ -419,12 +419,13 @@ function TestKit() {
           ))}
         </ul>
 
-        {/* Photo placeholder */}
-        <div className="flex items-center justify-center rounded-2xl border border-dashed border-white/20 bg-white/5 p-10 min-h-64">
-          <div className="text-center space-y-3 text-slate-500">
-            <Camera className="mx-auto h-10 w-10 opacity-40" />
-            <p className="text-sm">Kit photo coming soon</p>
-          </div>
+        {/* Kit photo */}
+        <div className="rounded-2xl overflow-hidden border border-white/10">
+          <img
+            src="/kit.jpeg"
+            alt="Current CDDF test kit hardware"
+            className="w-full h-full object-cover"
+          />
         </div>
       </div>
     </Section>
