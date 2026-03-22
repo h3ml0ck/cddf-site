@@ -1,19 +1,14 @@
-import React from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Github, Cpu, Radio, Wifi, Shield } from "lucide-react";
+import { Github, Cpu, Radio, Wifi, Shield, Menu, X, Mic } from "lucide-react";
 
-/**
- * Citizen Drone Defense Force — Single-file React site (JSX only)
- * 1) Put your poster image at: public/logo.png
- * 2) Update the GITHUB_URL below
- */
-const GITHUB_URL = "https://github.com/h3ml0ck/cddf"; // ← replace me
+const GITHUB_URL = "https://github.com/h3ml0ck/cddf";
 
 export default function CddfSite() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100">
       <Header />
-      <main className="mx-auto max-w-6xl px-6 md:px-10">
+      <main id="main-content" className="mx-auto max-w-6xl px-6 md:px-10">
         <Hero />
         <Overview />
         <Hardware />
@@ -25,6 +20,8 @@ export default function CddfSite() {
 }
 
 function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 backdrop-blur bg-slate-950/60 border-b border-white/5">
       <nav className="mx-auto max-w-6xl flex items-center justify-between px-6 md:px-10 py-3">
@@ -38,6 +35,8 @@ function Header() {
             Citizen Drone Defense Force
           </span>
         </div>
+
+        {/* Desktop nav */}
         <ul className="hidden md:flex items-center gap-6 text-sm">
           <li>
             <a href="#overview" className="hover:text-teal-300 transition">
@@ -65,7 +64,54 @@ function Header() {
             </a>
           </li>
         </ul>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden p-2 rounded-lg hover:bg-white/10 transition"
+          onClick={() => setMobileOpen((o) => !o)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu"
+        >
+          {mobileOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
+        </button>
       </nav>
+
+      {/* Mobile menu */}
+      {mobileOpen && (
+        <div
+          id="mobile-menu"
+          className="md:hidden border-t border-white/5 px-6 py-4 space-y-1"
+        >
+          {[
+            { href: "#overview", label: "Overview" },
+            { href: "#hardware", label: "Hardware" },
+            { href: "#software", label: "Software" },
+          ].map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className="block py-2 hover:text-teal-300 transition"
+              onClick={() => setMobileOpen(false)}
+            >
+              {label}
+            </a>
+          ))}
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 mt-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 hover:bg-white/10 transition"
+            onClick={() => setMobileOpen(false)}
+          >
+            <Github className="h-4 w-4" /> <span>GitHub</span>
+          </a>
+        </div>
+      )}
     </header>
   );
 }
@@ -206,19 +252,17 @@ function CardPanel() {
   const cards = [
     {
       title: "Edge Nodes",
-      body:
-        "Raspberry Pi 4/5 or x86 mini-PCs run SDR/BLE capture and optional audio ML.",
+      body: "Raspberry Pi 4/5 or x86 mini-PCs run SDR/BLE capture and optional audio ML.",
       icon: Cpu,
     },
     {
       title: "Transport",
-      body: "MQTT/WebSockets with TLS; store-and-forward if backhaul drops.",
+      body: "Kismet WebSocket → kismet-queuer → RabbitMQ topic exchange. TLS-capable with exponential-backoff reconnection.",
       icon: Wifi,
     },
     {
       title: "Security",
-      body:
-        "API tokens, per-node keys, signed updates, and principle of least privilege.",
+      body: "API tokens, per-node keys, signed updates, and principle of least privilege.",
       icon: Shield,
     },
   ];
@@ -262,13 +306,17 @@ function Hardware() {
     },
     {
       name: "Compute",
-      items: ["Raspberry Pi 5 + active cooling", "64-128 GB fast microSD or NVMe"],
+      items: [
+        "Raspberry Pi 5 + active cooling",
+        "64-128 GB fast microSD or NVMe",
+      ],
     },
     {
       name: "BLE Remote ID",
       items: [
-        "nRF52840 USB dongle (optional)",
+        "nRF52840 DK or USB Dongle",
         "Zigbee/BLE sniffer compatible adapters",
+        "CatSniffer v3.1 (TI CC1352P7, multi-protocol BLE/Zigbee/Sub-GHz)",
       ],
     },
     {
@@ -276,8 +324,18 @@ function Hardware() {
       items: ["Alfa Networks AWUS036ACM"],
     },
     {
+      name: "Audio Detection",
+      items: [
+        "Any ALSA/PulseAudio microphone or USB audio device",
+        "Used by drone-audio-monitor (100–700 Hz motor/rotor analysis)",
+      ],
+    },
+    {
       name: "Power & Mounting",
-      items: ["PoE hat or 12 V regulator", "Weatherproof enclosure, mast clamps"],
+      items: [
+        "PoE hat or 12 V regulator",
+        "Weatherproof enclosure, mast clamps",
+      ],
     },
   ];
 
@@ -323,16 +381,17 @@ function Software() {
       <div className="grid lg:grid-cols-[1.2fr,1fr] gap-8 items-center">
         <div className="space-y-4 text-slate-300">
           <p>
-            All firmware, capture utilities, dashboards, and deployment scripts
-            live in the repository below. You’ll find quick-start guides for
-            Raspberry Pi, Docker compose files for gateway nodes, and sample
-            parsers for BLE Remote ID, 2.4/5 GHz activity, and acoustic
-            inference.
+            The repo contains two main components: <strong className="text-slate-100">drone_tools</strong> — a Python package
+            for audio, RF, WiFi/BLE Remote ID, and OpenAI vision analysis — and <strong className="text-slate-100">kismet-queuer</strong>,
+            a standalone systemd service that bridges the Kismet WebSocket API to a RabbitMQ topic exchange.
+            You'll find quick-start guides, Ansible playbooks for edge node provisioning, and
+            howto guides for nRF52840 and BLE Remote ID hardware.
           </p>
           <ul className="list-disc pl-5 space-y-2">
             <li>Apache License 2.0; contributions welcome via PRs</li>
             <li>Issue templates for bug reports and hardware variants</li>
             <li>Security policy for responsible disclosure</li>
+            <li>OpenAI Vision API integration for drone image identification</li>
           </ul>
           <div className="pt-2">
             <a
@@ -375,7 +434,8 @@ function RepoCard({ url }) {
         rel="noreferrer"
         className="mt-4 inline-flex items-center gap-2 rounded-xl border border-white/10 px-3 py-1.5 hover:bg-white/10 transition"
       >
-        <Github className="h-4 w-4" /> <span className="text-sm">Open on GitHub</span>
+        <Github className="h-4 w-4" />{" "}
+        <span className="text-sm">Open on GitHub</span>
       </a>
     </div>
   );
@@ -385,8 +445,9 @@ function Footer() {
   return (
     <footer className="mt-20 border-t border-white/5 py-10 text-center text-sm text-slate-400">
       <p>
-        © {new Date().getFullYear()} Citizen Drone Defense Force • Built with ❤️
-        and open-source tools
+        © {new Date().getFullYear()} Citizen Drone Defense Force • Built with{" "}
+        <span aria-hidden="true">❤️</span>
+        <span className="sr-only">love</span> and open-source tools
       </p>
     </footer>
   );
