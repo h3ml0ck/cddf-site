@@ -420,11 +420,11 @@ function TestKit() {
         </ul>
 
         {/* Kit photo */}
-        <div className="rounded-2xl overflow-hidden border border-white/10">
+        <div className="rounded-2xl overflow-hidden border border-white/10 aspect-[3/2] max-h-96">
           <img
-            src="/kit.jpeg"
+            src="/drone-detection.jpg"
             alt="Current CDDF test kit hardware"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-center"
           />
         </div>
       </div>
