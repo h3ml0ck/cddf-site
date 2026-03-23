@@ -370,10 +370,6 @@ function Hardware() {
           </div>
         ))}
       </div>
-      <p className="mt-5 text-xs text-slate-400">
-        Tip: Place filters near the SDR to reduce front-end overload. Use
-        low-loss coax (LMR-240/400) for long runs.
-      </p>
     </Section>
   );
 }
